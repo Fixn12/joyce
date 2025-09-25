@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎉 Surprise Birthday 🎂</title>
+
+  <!-- Import Poppins font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      background: linear-gradient(135deg, #ffecd2, #fcb69f);
+      font-family: "Poppins", sans-serif;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      margin-top: 60px;
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-shadow: 2px 4px 8px rgba(0,0,0,0.3);
+      opacity: 0;
+      transform: translateY(-30px);
+      animation: slideDown 1.5s forwards ease-out;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      margin: 15px 20px;
+      color: #fff;
+      font-weight: 400;
+      opacity: 0;
+      animation: fadeIn 2s forwards ease-in-out 1.5s;
+    }
+
+    @keyframes slideDown {
+      0% { opacity: 0; transform: translateY(-30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    /* Album section */
+    .album {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 40px;
+      margin-top: 20px;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .photo-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      overflow: hidden;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .photo-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    }
+
+    .photo-card img {
+      width: 100%;
+      display: block;
+    }
+
+    .caption {
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #444;
+    }
+
+    /* Balloons */
+    .balloon {
+      position: absolute;
+      bottom: -150px;
+      width: 60px;
+      height: 80px;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: floatUp 8s infinite ease-in;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0); }
+      100% { transform: translateY(-120vh) rotate(360deg); }
+    }
+
+    /* Confetti */
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 Happy Birthday, Joyce! 🎂</h1>
+  <h2>May your day sparkle with joy, love, and unforgettable memories 💖</h2>
+
+  <!-- Album Section -->
+  <div class="album">
+    <div class="photo-card">
+      <img src="joyce1.jpg" alt="Memory 1">
+      <div class="caption">Wow ganda yarn 🥰</div>
+    </div>
+    <div class="photo-card">
+      <img src="joyce2.jpg" alt="Memory 2">
+      <div class="caption">Nakatalikod ano yan pa mysterious 😆</div>
+    </div>
+    <div class="photo-card">
+      <img src="joyce3.jpg" alt="Memory 3">
+      <div class="caption">may pinopormahan to 🙄</div>
+    </div>
+    <div class="photo-card">
+      <img src="joyce4.jpg" alt="Memory 4">
+      <div class="caption">Sarap apaka sexy 🥵 💦</div>
+    </div>
+  </div>
+
+  <canvas id="confetti"></canvas>
+
+  <script>
+    // 🎈 Balloons
+    function createBalloon() {
+      const balloon = document.createElement("div");
+      balloon.classList.add("balloon");
+      balloon.style.left = Math.random() * window.innerWidth + "px";
+      balloon.style.background = `hsl(${Math.random() * 360}, 70%, 60%)`;
+      balloon.style.animationDuration = 5 + Math.random() * 5 + "s";
+      document.body.appendChild(balloon);
+      setTimeout(() => balloon.remove(), 10000);
+    }
+    setInterval(createBalloon, 900);
+
+    // 🎊 Confetti
+    const confetti = document.getElementById("confetti");
+    const ctx = confetti.getContext("2d");
+    confetti.width = window.innerWidth;
+    confetti.height = window.innerHeight;
+
+    let particles = [];
+    for (let i = 0; i < 120; i++) {
+      particles.push({
+        x: Math.random() * confetti.width,
+        y: Math.random() * confetti.height,
+        w: 10,
+        h: 10,
+        color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+        speedY: Math.random() + 1,
+        speedX: (Math.random() - 0.5) * 2
+      });
+    }
+
+    function drawConfetti() {
+      ctx.clearRect(0, 0, confetti.width, confetti.height);
+      particles.forEach(p => {
+        ctx.fillStyle = p.color;
+        ctx.fillRect(p.x, p.y, p.w, p.h);
+        p.y += p.speedY;
+        p.x += p.speedX;
+        if (p.y > confetti.height) {
+          p.y = -10;
+          p.x = Math.random() * confetti.width;
+        }
+      });
+      requestAnimationFrame(drawConfetti);
+    }
+    drawConfetti();
+  </script>
+</body>
+</html>
